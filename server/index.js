@@ -1,7 +1,8 @@
 // Token Counter Language Server
 //
-// Provides CodeLens at line 1 of supported files showing LLM token counts
-// for GPT-4 (cl100k_base), GPT-4o (o200k_base), and a Claude estimate.
+// Provides inlay hints showing LLM token counts that follow the viewport.
+// The hint is placed at the end of the first visible line, so it stays
+// visible as you scroll through the document.
 
 const { createConnection, TextDocuments } = require("vscode-languageserver/node");
 const { TextDocument } = require("vscode-languageserver-textdocument");
@@ -49,19 +50,20 @@ connection.onInitialize(() => {
   try {
     cl100k = getEncoding("cl100k_base");
     o200k = getEncoding("o200k_base");
+    connection.console.log("Token Counter: tokenizers initialized");
   } catch (e) {
-    connection.console.error("Failed to initialize tokenizers: " + e.message);
+    connection.console.error("Token Counter: failed to init tokenizers: " + e.message);
   }
 
   return {
     capabilities: {
       textDocumentSync: 1, // Full document sync
-      codeLensProvider: { resolveProvider: false },
+      inlayHintProvider: true,
     },
   };
 });
 
-connection.onCodeLens((params) => {
+connection.onRequest("textDocument/inlayHint", (params) => {
   const doc = documents.get(params.textDocument.uri);
   if (!doc) return [];
 
@@ -76,23 +78,23 @@ connection.onCodeLens((params) => {
   parts.push(`~Claude: ${fmt(counts.claude)}`);
   parts.push(`Chars: ${fmt(counts.chars)}`);
 
+  // Reason: The inlayHint request includes the visible range. By placing
+  // the hint on the first visible line, it "follows" the viewport as you scroll.
+  const targetLine = params.range ? params.range.start.line : 0;
+
+  // Find the end of the target line to position the hint after the text
+  const lines = text.split("\n");
+  const lineText = lines[targetLine] || "";
+
   return [
     {
-      range: {
-        start: { line: 0, character: 0 },
-        end: { line: 0, character: 0 },
-      },
-      command: {
-        title: parts.join(" | "),
-        command: "",
-      },
+      position: { line: targetLine, character: lineText.length },
+      label: "  " + parts.join(" | "),
+      kind: 1, // Type hint
+      paddingLeft: true,
+      paddingRight: false,
     },
   ];
-});
-
-// Notify the client to refresh code lenses when a document changes
-documents.onDidChangeContent(() => {
-  connection.sendNotification("workspace/codeLens/refresh");
 });
 
 // Clean up cached counts when a document is closed

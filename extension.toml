@@ -2,8 +2,9 @@ id = "token-counter"
 name = "Token Counter"
 version = "0.0.1"
 schema_version = 1
-authors = ["dev"]
-description = "Displays LLM token counts (GPT-4, GPT-4o, Claude estimate) as a CodeLens at the top of your files"
+authors = ["jvr0x <javier@odinscan.ai>"]
+description = "Displays LLM token counts (GPT-4, GPT-4o, Claude estimate) as inline hints in your files"
+repository = "https://github.com/jvr0x/zed-token-counter"
 
 [language_servers.token-counter]
 name = "Token Counter"
