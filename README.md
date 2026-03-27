@@ -4,12 +4,12 @@ A [Zed](https://zed.dev) extension that displays LLM token counts as inline hint
 
 See at a glance how many tokens your prompts, docs, and config files consume across different models — without leaving the editor.
 
-![Token Counter showing GPT-4, GPT-4o, Claude estimate and character count](https://raw.githubusercontent.com/jvr0x/zed-token-counter/main/assets/screenshot.png)
+![Token Counter showing cl100k, o200k, Claude estimate and character count](https://raw.githubusercontent.com/jvr0x/zed-token-counter/main/assets/screenshot.png)
 
 ## Features
 
-- **GPT-4 token count** — exact count using `cl100k_base` tokenizer
-- **GPT-4o token count** — exact count using `o200k_base` tokenizer
+- **cl100k token count** — exact count using OpenAI's `cl100k_base` tokenizer (GPT-4, GPT-4-turbo)
+- **o200k token count** — exact count using OpenAI's `o200k_base` tokenizer (GPT-4o, o1, o3, o4, GPT-5+)
 - **Claude estimate** — approximate count (~3.5 chars/token heuristic, since Anthropic's tokenizer is proprietary)
 - **Character count** — total characters in the file
 - **Viewport-following** — the hint stays visible as you scroll, always showing at the top of your current view
@@ -62,13 +62,13 @@ npm dependencies (`vscode-languageserver`, `vscode-languageserver-textdocument`,
 
 ## Token Count Accuracy
 
-| Model | Method | Accuracy |
-|-------|--------|----------|
-| GPT-4, GPT-3.5-turbo | `cl100k_base` tokenizer | Exact |
-| GPT-4o, o1, o3 | `o200k_base` tokenizer | Exact |
-| Claude 3/3.5/4 | ~3.5 chars/token estimate | Approximate (~5-15% variance) |
+| Tokenizer | Models | Accuracy |
+|-----------|--------|----------|
+| `cl100k_base` | GPT-4, GPT-4-turbo | Exact |
+| `o200k_base` | GPT-4o, o1, o3, o4, GPT-5+ | Exact |
+| ~3.5 chars/token | Claude (all versions) | Approximate (~5-15% variance) |
 
-Claude's tokenizer is proprietary and not publicly available. The estimate is intentionally conservative (may slightly overcount), which is safer for context window budgeting.
+OpenAI models share tokenizers across versions — `o200k_base` is the latest and is used by all recent models. Claude's tokenizer is proprietary; the estimate is intentionally conservative (may slightly overcount), which is safer for context window budgeting.
 
 ## License
 

@@ -73,8 +73,8 @@ connection.onRequest("textDocument/inlayHint", (params) => {
   const counts = getTokenCounts(doc.uri, doc.version, text);
 
   const parts = [];
-  if (counts.cl100k > 0) parts.push(`GPT-4: ${fmt(counts.cl100k)}`);
-  if (counts.o200k > 0) parts.push(`GPT-4o: ${fmt(counts.o200k)}`);
+  if (counts.cl100k > 0) parts.push(`cl100k: ${fmt(counts.cl100k)}`);
+  if (counts.o200k > 0) parts.push(`o200k: ${fmt(counts.o200k)}`);
   parts.push(`~Claude: ${fmt(counts.claude)}`);
   parts.push(`Chars: ${fmt(counts.chars)}`);
 
