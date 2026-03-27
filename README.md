@@ -4,7 +4,7 @@ A [Zed](https://zed.dev) extension that displays LLM token counts as inline hint
 
 See at a glance how many tokens your prompts, docs, and config files consume across different models — without leaving the editor.
 
-![Token Counter showing cl100k, o200k, Claude estimate and character count](https://raw.githubusercontent.com/jvr0x/zed-token-counter/main/assets/screenshot.png)
+![Token Counter showing cl100k, o200k, Claude estimate and character count](https://raw.githubusercontent.com/jvr0x/zed-token-counter/master/assets/screenshot.png)
 
 ## Features
 
