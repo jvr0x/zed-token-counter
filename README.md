@@ -51,14 +51,14 @@ Make sure inlay hints are enabled in your Zed settings (`settings.json`):
 
 ## How It Works
 
-The extension runs a lightweight Node.js language server (via LSP) that:
+The extension downloads and runs a lightweight Node.js language server ([token-counter-lsp](https://www.npmjs.com/package/token-counter-lsp)) via LSP that:
 
 1. Receives the file contents from Zed on open/edit
 2. Encodes the text with [js-tiktoken](https://github.com/nicktomlin/js-tiktoken) for exact OpenAI token counts
 3. Estimates Claude tokens using a character-based heuristic
 4. Returns the counts as an [inlay hint](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_inlayHint) positioned at the first visible line
 
-npm dependencies (`vscode-languageserver`, `vscode-languageserver-textdocument`, `js-tiktoken`) are installed automatically on first activation.
+The `token-counter-lsp` npm package and its dependencies are installed automatically on first activation.
 
 ## Token Count Accuracy
 

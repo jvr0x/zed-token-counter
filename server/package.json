@@ -1,0 +1,12 @@
+{
+  "name": "token-counter-lsp",
+  "version": "0.0.1",
+  "description": "Language server that provides LLM token counts as inlay hints",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "js-tiktoken": "^1.0.0",
+    "vscode-languageserver": "^9.0.0",
+    "vscode-languageserver-textdocument": "^1.0.0"
+  }
+}
